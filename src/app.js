@@ -5,7 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config');
 const usersRouter = require('./users/users-router');
-// const palettesRouter = require('./palettes/palettes-router');
+const palettesRouter = require('./palettes/palettes-router');
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use(
 );
 
 app.use('/api/users', usersRouter);
-// app.use('/api/palettes', palettesRouter);
+app.use('/api/palettes', palettesRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');

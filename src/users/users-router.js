@@ -90,6 +90,7 @@ usersRouter
       .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
+    // not yet fully implemented on client-side
     const { username, profile_picture, password } = req.body;
     const userToUpdate = { username, profile_picture, password };
 
