@@ -24,7 +24,7 @@ usersRouter
       .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
-    const { username, password, profile_picture } = req.body;
+    const { username, password } = req.body;
 
     if (!username) {
       return res.status(400).json({
@@ -38,7 +38,7 @@ usersRouter
       });
     }
 
-    bcrypt.genSalt(14, function (err, salt) {
+    bcrypt.genSalt(10, function (err, salt) {
       if (err) {
         return res.status(500).json({
           error: { message: err },
@@ -50,7 +50,7 @@ usersRouter
             error: { message: err },
           });
         }
-        const newUser = { username, hash, profile_picture };
+        const newUser = { username, hash };
 
         UsersService.insertUser(req.app.get('db'), newUser)
           .then((user) => {
@@ -63,6 +63,33 @@ usersRouter
       });
     });
   });
+
+usersRouter.route('/signing-in/:userId').post(jsonParser, (req, res, next) => {
+  const { password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({
+      error: { message: `Missing 'password' in request body` },
+    });
+  }
+
+  UsersService.getById(req.app.get('db'), req.params.userId)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          error: { message: `User doesn't exist` },
+        });
+      }
+      bcrypt.compare(password, user.hash, function (err, passwordCorrect) {
+        if (passwordCorrect === true) {
+          return res.status(200).json(true).end();
+        } else if (!passwordCorrect) {
+          return res.status(403).json(false).end();
+        }
+      });
+    })
+    .catch(next);
+});
 
 usersRouter
   .route('/:userId')
