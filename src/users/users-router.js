@@ -64,7 +64,7 @@ usersRouter
     });
   });
 
-usersRouter.route('/signing-in/:userId').post(jsonParser, (req, res, next) => {
+usersRouter.route('/signingIn/:userId').post(jsonParser, (req, res, next) => {
   const { password } = req.body;
 
   if (!password) {

@@ -137,12 +137,12 @@ describe(`POST /api/users`, () => {
   });
 });
 
-describe(`POST /api/users/signIn/:userId`, () => {
+describe(`POST /api/users/signingIn/:userId`, () => {
   context(`Given no users`, () => {
     it(`responds with 404`, () => {
       const userId = 9999999999;
       return supertest(app)
-        .post(`/api/users/signIn/${userId}`)
+        .post(`/api/users/signingIn/${userId}`)
         .send({ password: 'foo' })
         .expect(404, { error: { message: `User doesn't exist` } });
     });
@@ -158,7 +158,7 @@ describe(`POST /api/users/signIn/:userId`, () => {
     it(`responds with 200 if password is correct`, () => {
       const userId = 1;
       return supertest(app)
-        .post(`/api/users/signing-in/${userId}`)
+        .post(`/api/users/signingIn/${userId}`)
         .send({ password: 'asdfPass' })
         .expect(200);
     });
@@ -166,7 +166,7 @@ describe(`POST /api/users/signIn/:userId`, () => {
     it(`responds with 403 if password is incorrect`, () => {
       const userId = 1;
       return supertest(app)
-        .post(`/api/users/signing-in/${userId}`)
+        .post(`/api/users/signingIn/${userId}`)
         .send({ password: 'qwertyPass' })
         .expect(403);
     });
@@ -174,7 +174,7 @@ describe(`POST /api/users/signIn/:userId`, () => {
     it(`responds with 400 when no password supplied`, () => {
       const userId = 1;
       return supertest(app)
-        .post(`/api/users/signing-in/${userId}`)
+        .post(`/api/users/signingIn/${userId}`)
         .send({ irrelevantField: 'foo' })
         .expect(400, {
           error: { message: `Missing 'password' in request body` },
@@ -224,7 +224,7 @@ describe(`PATCH /api/users/:userId`, () => {
         .send({ irrelevantField: 'foo' })
         .expect(400, {
           error: {
-            message: `Request body must contain either 'username', 'profile_picture', or 'password'`,
+            message: `Request body must contain either 'username' or 'profile_picture'`,
           },
         });
     });
