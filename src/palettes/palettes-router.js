@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const bcrypt = require('bcryptjs');
 
 const PalettesService = require('./palettes-service');
 
