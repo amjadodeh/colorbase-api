@@ -1,4 +1,4 @@
-# ColorStop Client
+# ColorStop API
 
 Create the perfect color palette for your project or get inspired by popular color palettes created by other users!
 
